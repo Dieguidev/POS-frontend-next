@@ -3,6 +3,7 @@
 import { useStore } from "@/store/store"
 import { ShoppingCartItem } from "./ShoppingCartItem"
 import { Amount } from "./Amount"
+import { CouponForm } from "./CouponForm"
 
 
 export const ShoppingCart = () => {
@@ -33,6 +34,7 @@ export const ShoppingCart = () => {
               amount = {total}
               />
             </dl>
+            <CouponForm />
           </>
         )
           : (
