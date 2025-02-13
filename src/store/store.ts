@@ -10,6 +10,7 @@ import { devtools } from 'zustand/middleware';
 
 interface Store {
   total: number;
+  discount: number;
   contents: ShoppingCart;
   coupon: Coupon;
   addToCart: (product: Product) => void;
@@ -17,11 +18,13 @@ interface Store {
   deleteFromCart: (id: Product['id']) => void;
   calculateTolal: () => void;
   applyCoupon: (coupon: string) => Promise<void>;
+  applyDiscount: () => void;
 }
 
 export const useStore = create<Store>()(
   devtools((set, get) => ({
     total: 0,
+    discount: 0,
     contents: [],
     coupon: {
       name: '',
@@ -99,6 +102,10 @@ export const useStore = create<Store>()(
       set(() => ({
         total,
       }));
+
+      if (get().coupon.percentage) {
+        get().applyDiscount();
+      }
     },
 
     applyCoupon: async (couponName) => {
@@ -110,6 +117,24 @@ export const useStore = create<Store>()(
       const coupon = CouponResponseSchema.parse(json);
       set(() => ({
         coupon,
+      }));
+
+      if (get().coupon.percentage) {
+        get().applyDiscount();
+      }
+    },
+
+    applyDiscount: () => {
+      const { percentage } = get().coupon;
+      const subtotalAmount = get().contents.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+      const discount = (subtotalAmount * percentage) / 100;
+      const total = get().total - discount;
+      set(() => ({
+        discount,
+        total,
       }));
     },
   }))

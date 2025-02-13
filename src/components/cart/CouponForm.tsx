@@ -1,6 +1,6 @@
 import { useStore } from '@/store/store'
 import React, { FormEvent } from 'react'
-import { Coupon } from '../../schemas/schemas';
+
 
 export const CouponForm = () => {
 
