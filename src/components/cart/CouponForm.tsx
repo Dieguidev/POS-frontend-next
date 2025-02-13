@@ -17,7 +17,7 @@ export const CouponForm = () => {
       <p className="py-5 font-bold border-t border-gray-300">Canjear Cupón</p>
       <form
         className="flex"
-        onSubmit={() => handleSubmit}
+        onSubmit={handleSubmit}
       >
         <input
           type="text"

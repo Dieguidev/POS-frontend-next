@@ -90,16 +90,15 @@ export const useStore = create<Store>()(
       }));
     },
 
-    applyCoupon: async (coupon) => {
-      const response = await fetch(`${process.env.API_URL}/coupons/apply-coupon`);
-      const { isValid, discount } = await response.json();
+    applyCoupon: async (couponName) => {
+      const req = await fetch('/coupons/api', {
+        method: 'POST',
+        body: JSON.stringify({ name: couponName }),
+      });
+      const json = await req.json();
+      console.log(json);
 
-      if (isValid) {
-        const total = get().total - discount;
-        set(() => ({
-          total,
-        }));
-      }
+
     },
   }))
 );
