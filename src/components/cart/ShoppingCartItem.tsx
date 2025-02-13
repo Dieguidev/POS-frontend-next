@@ -1,4 +1,5 @@
 import { CartItem } from '@/schemas/schemas'
+import { useStore } from '@/store/store'
 import { formatCurrency } from '@/utils/formatCurrency'
 import Image from 'next/image'
 import React from 'react'
@@ -8,6 +9,9 @@ type ShoppingCartItemProps = {
 }
 
 export const ShoppingCartItem = ({item}:ShoppingCartItemProps) => {
+
+  const updateQuantity = useStore(state => state.updateQuantity)
+
   return (
     <li className="flex items-center space-x-6 py-6 relative">
         <div className='h-24 w-24'>
@@ -24,9 +28,9 @@ export const ShoppingCartItem = ({item}:ShoppingCartItemProps) => {
             </h3>
             <p>{formatCurrency(item.price)}</p>
             <select
-                className="w-32 text-center p-2 rounded-lg bg-white"
+                className="w-32 text-center p-2 rounded-lg bg-gray-100"
                 value={item.quantity}
-                onChange={() => {}}
+                onChange={(e) => updateQuantity(item.productId, Number(e.target.value))}
             >
               {
                 Array.from({length: item.inventory}, (_, index)=>index+1).map(num=>(
