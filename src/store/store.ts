@@ -11,6 +11,7 @@ import { devtools } from 'zustand/middleware';
 interface Store {
   total: number;
   discount: number;
+  subtotal: number;
   contents: ShoppingCart;
   coupon: Coupon;
   addToCart: (product: Product) => void;
@@ -25,6 +26,7 @@ export const useStore = create<Store>()(
   devtools((set, get) => ({
     total: 0,
     discount: 0,
+    subtotal: 0,
     contents: [],
     coupon: {
       name: '',
@@ -131,10 +133,10 @@ export const useStore = create<Store>()(
         0
       );
       const discount = (subtotalAmount * percentage) / 100;
-      const total = get().total - discount;
+      const subtotal = get().total - discount;
       set(() => ({
         discount,
-        total,
+        subtotal,
       }));
     },
   }))
