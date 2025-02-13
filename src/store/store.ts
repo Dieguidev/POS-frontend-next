@@ -128,6 +128,8 @@ export const useStore = create<Store>()(
 
     applyDiscount: () => {
       const { percentage } = get().coupon;
+
+      if (!percentage) return;
       const subtotalAmount = get().contents.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
