@@ -43,6 +43,18 @@ export const CouponResponseSchema = z.object({
   percentage: z.coerce.number().min(0).max(100).default(0),
 });
 
+
+const OrderContentSchema = z.object({
+  productId: z.number(),
+  quantity: z.number(),
+  price: z.number()
+})
+export const OrderSchema = z.object({
+  // total: z.number(),
+  coupon: z.string(),
+  contents: z.array(OrderContentSchema).min(1, {message: 'El Carrito no puede ir vacio'})
+})
+
 export type Product = z.infer<typeof ProductSchema>;
 export type ShoppingCart = z.infer<typeof ShoppingCartSchema>;
 export type CartItem = z.infer<typeof ShoppingCartContentsSchema>;

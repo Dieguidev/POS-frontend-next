@@ -5,14 +5,15 @@ import { useActionState } from "react"
 
 export const SubmitOrderForm = () => {
 
-  const coupon = useStore(state => state.coupon)
+  const coupon = useStore(state => state.coupon.name)
   const contents = useStore(state => state.contents)
   const order = {
     coupon,
     contents
   }
 
-  const [state, dispatch] = useActionState(submitOrder, {
+  const submitOrderWithData = submitOrder.bind(null, order)
+  const [state, dispatch] = useActionState(submitOrderWithData, {
     errors: [],
     success: ''
   })
