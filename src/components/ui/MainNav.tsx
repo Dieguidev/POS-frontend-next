@@ -1,7 +1,29 @@
+import { CategoriesSchema } from "@/schemas/schemas";
 import { Logo } from "./Logo"
 
+async function getCategories() {
+  const url = `${process.env.API_URL}/categories`;
+  const req = await fetch(url, {
+    method: 'GET',
+    cache:'force-cache',
+    next: {
+      tags: [`categories`],
+    }
+  })
 
-export const MainNav = () => {
+  const json = await req.json();
+
+  const categories = CategoriesSchema.parse(json);
+  return categories;
+}
+
+
+export const MainNav = async () => {
+
+  const categories = await getCategories()
+  console.log(categories);
+
+
   return (
     <header className="px-10 py-5 bg-gray-700 flex flex-col md:flex-row justify-between ">
         <div className="flex justify-center">
