@@ -1,21 +1,43 @@
-import { Product, ShoppingCart } from '@/schemas/schemas';
+import {
+  Coupon,
+  CouponResponseSchema,
+  Product,
+  ShoppingCart,
+} from '@/schemas/schemas';
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 interface Store {
   total: number;
+  discount: number;
+  subtotal: number;
   contents: ShoppingCart;
+  coupon: Coupon;
   addToCart: (product: Product) => void;
   updateQuantity: (id: Product['id'], quantity: number) => void;
   deleteFromCart: (id: Product['id']) => void;
   calculateTolal: () => void;
+  applyCoupon: (coupon: string) => Promise<void>;
+  applyDiscount: () => void;
+  clearOrder: () => void;
+}
+
+const intialState = {
+  total: 0,
+  discount: 0,
+  subtotal: 0,
+  contents: [],
+  coupon: {
+    name: '',
+    message: '',
+    percentage: 0,
+  },
 }
 
 export const useStore = create<Store>()(
   devtools((set, get) => ({
-    total: 0,
-    contents: [],
+    ...intialState,
     addToCart: (product) => {
       const { id: productId, categoryId, ...data } = product;
       let contents: ShoppingCart = [];
@@ -76,6 +98,9 @@ export const useStore = create<Store>()(
       set(() => ({
         contents,
       }));
+      if (!contents.length) {
+        get().clearOrder();
+      }
       get().calculateTolal();
     },
 
@@ -86,6 +111,48 @@ export const useStore = create<Store>()(
       );
       set(() => ({
         total,
+      }));
+
+      if (get().coupon.percentage) {
+        get().applyDiscount();
+      }
+    },
+
+    applyCoupon: async (couponName) => {
+      const req = await fetch('/coupons/api', {
+        method: 'POST',
+        body: JSON.stringify({ name: couponName }),
+      });
+      const json = await req.json();
+      const coupon = CouponResponseSchema.parse(json);
+      set(() => ({
+        coupon,
+      }));
+
+      if (get().coupon.percentage) {
+        get().applyDiscount();
+      }
+    },
+
+    applyDiscount: () => {
+      const { percentage } = get().coupon;
+
+      if (!percentage) return;
+      const subtotalAmount = get().contents.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+      const discount = (subtotalAmount * percentage) / 100;
+      const subtotal = get().total - discount;
+      set(() => ({
+        discount,
+        subtotal,
+      }));
+    },
+
+    clearOrder: () => {
+      set(() => ({
+        ...intialState,
       }));
     },
   }))
