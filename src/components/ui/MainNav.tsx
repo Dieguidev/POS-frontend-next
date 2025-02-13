@@ -22,8 +22,6 @@ async function getCategories() {
 export const MainNav = async () => {
 
   const categories = await getCategories()
-  console.log(categories);
-
 
   return (
     <header className="px-10 py-5 bg-gray-700 flex flex-col md:flex-row justify-between ">
