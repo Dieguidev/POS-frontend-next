@@ -2,10 +2,14 @@
 
 import { useStore } from "@/store/store"
 import { ShoppingCartItem } from "./ShoppingCartItem"
+import { Amount } from "./Amount"
+
 
 export const ShoppingCart = () => {
 
   const contents = useStore(state => state.contents)
+  const total = useStore(state => state.total)
+
 
   return (
     <>
@@ -23,6 +27,12 @@ export const ShoppingCart = () => {
                 ))
               }
             </ul>
+            <dl className="space-y-6 border-t border-gray-300 py-6 text-sm font-medium text-gray-500">
+              <Amount
+              label="Total a pagar"
+              amount = {total}
+              />
+            </dl>
           </>
         )
           : (
