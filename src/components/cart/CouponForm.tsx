@@ -1,14 +1,17 @@
 import { useStore } from '@/store/store'
 import React, { FormEvent } from 'react'
+import { Coupon } from '../../schemas/schemas';
 
 export const CouponForm = () => {
 
   const applyCoupon = useStore(state => state.applyCoupon)
+  const coupon = useStore(state => state.coupon)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const couponName = formData.get('coupon_name') as string
+    if (!couponName) return
     await applyCoupon(couponName)
   }
 
@@ -31,6 +34,11 @@ export const CouponForm = () => {
           value='Canjear'
         />
       </form>
+      {
+        coupon.message && (
+          <p className="py-4 text-center text-sm font-bold">{coupon.message}</p>
+        )
+      }
     </>
   )
 }
