@@ -11,6 +11,8 @@ export const ProductSchema = z.object({
   categoryId: z.number()
 })
 
+export type Product = z.infer<typeof ProductSchema>
+
 export const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
