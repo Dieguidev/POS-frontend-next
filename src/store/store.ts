@@ -8,6 +8,7 @@ interface Store {
   contents: ShoppingCart;
   addToCart: (product: Product) => void;
   updateQuantity: (id: Product['id'], quantity: number) => void
+  deleteFromCart: (id: Product['id']) => void
 }
 
 export const useStore = create<Store>()(
@@ -64,7 +65,13 @@ export const useStore = create<Store>()(
       set(() => ({
         contents
       }));
-    }
+    },
 
+    deleteFromCart: (id) => {
+      const contents = get().contents.filter(item => item.productId !== id);
+      set(() => ({
+        contents
+      }));
+    }
   }))
 );
