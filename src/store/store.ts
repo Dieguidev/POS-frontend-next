@@ -10,6 +10,7 @@ interface Store {
   updateQuantity: (id: Product['id'], quantity: number) => void;
   deleteFromCart: (id: Product['id']) => void;
   calculateTolal: () => void;
+  applyCoupon: (coupon: string) => Promise<void>;
 }
 
 export const useStore = create<Store>()(
@@ -87,6 +88,18 @@ export const useStore = create<Store>()(
       set(() => ({
         total,
       }));
+    },
+
+    applyCoupon: async (coupon) => {
+      const response = await fetch(`${process.env.API_URL}/coupons/apply-coupon`);
+      const { isValid, discount } = await response.json();
+
+      if (isValid) {
+        const total = get().total - discount;
+        set(() => ({
+          total,
+        }));
+      }
     },
   }))
 );
