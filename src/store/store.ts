@@ -9,6 +9,7 @@ interface Store {
   addToCart: (product: Product) => void;
   updateQuantity: (id: Product['id'], quantity: number) => void
   deleteFromCart: (id: Product['id']) => void
+  calculateTolal: () => void
 }
 
 export const useStore = create<Store>()(
@@ -51,6 +52,8 @@ export const useStore = create<Store>()(
       set(() => ({
         contents,
       }));
+
+      get().calculateTolal();
     },
 
     updateQuantity: (id, quantity) =>{
@@ -71,6 +74,13 @@ export const useStore = create<Store>()(
       const contents = get().contents.filter(item => item.productId !== id);
       set(() => ({
         contents
+      }));
+    },
+
+    calculateTolal: ()=>{
+      const total = get().contents.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      set(() => ({
+        total
       }));
     }
   }))
