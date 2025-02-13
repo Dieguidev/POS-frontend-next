@@ -1,4 +1,4 @@
-import { Product, ShoppingCart } from '@/schemas/schemas';
+import { CouponResponseSchema, Product, ShoppingCart } from '@/schemas/schemas';
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -96,7 +96,8 @@ export const useStore = create<Store>()(
         body: JSON.stringify({ name: couponName }),
       });
       const json = await req.json();
-      console.log(json);
+      const coupon = CouponResponseSchema.parse(json);
+      console.log(coupon);
 
 
     },
