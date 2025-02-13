@@ -1,5 +1,7 @@
 import { ProductCard } from "@/components/products/ProductCard";
 import { CategoryWithProductsResponseSchema } from "@/schemas/schemas";
+import { redirect } from "next/navigation";
+
 
 type Params = Promise<{ categoryId: string }>
 
@@ -13,6 +15,9 @@ async function getProducts(categoryId: string) {
     }
   });
   const json = await req.json();
+  if (!req.ok) {
+    redirect('/1')
+  }
   const products = CategoryWithProductsResponseSchema.parse(json);
   return products;
 }
