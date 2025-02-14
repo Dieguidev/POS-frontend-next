@@ -9,10 +9,12 @@ export const SubmitOrderForm = () => {
 
   const coupon = useStore(state => state.coupon.name)
   const contents = useStore(state => state.contents)
+  const clearOrder = useStore(state => state.clearOrder)
   const order = {
     coupon,
     contents
   }
+
 
   const submitOrderWithData = submitOrder.bind(null, order)
   const [state, dispatch] = useActionState(submitOrderWithData, {
@@ -27,9 +29,10 @@ export const SubmitOrderForm = () => {
       })
     }
     if (state.success) {
+      clearOrder()
       toast.success(state.success)
     }
-  }, [state])
+  }, [state, clearOrder])
 
 
 
