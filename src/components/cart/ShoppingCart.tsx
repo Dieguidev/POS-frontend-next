@@ -13,9 +13,6 @@ export const ShoppingCart = () => {
   const total = useStore(state => state.total)
   const discount = useStore(state => state.discount)
   const subtotal = useStore(state => state.subtotal)
-  console.log(discount);
-
-
 
   return (
     <>
