@@ -39,7 +39,7 @@ export const useStore = create<Store>()(
   devtools((set, get) => ({
     ...intialState,
     addToCart: (product) => {
-      const { id: productId, categoryId, ...data } = product;
+      const { id: productId,  ...data } = product;
       let contents: ShoppingCart = [];
       const duplicated = get().contents.findIndex(
         (item) => item.productId === productId

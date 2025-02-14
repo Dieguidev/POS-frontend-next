@@ -4,6 +4,7 @@ import { useStore } from "@/store/store"
 import { ShoppingCartItem } from "./ShoppingCartItem"
 import { Amount } from "./Amount"
 import { CouponForm } from "./CouponForm"
+import { SubmitOrderForm } from "./SubmitOrderForm"
 
 
 export const ShoppingCart = () => {
@@ -12,9 +13,6 @@ export const ShoppingCart = () => {
   const total = useStore(state => state.total)
   const discount = useStore(state => state.discount)
   const subtotal = useStore(state => state.subtotal)
-  console.log(discount);
-
-
 
   return (
     <>
@@ -36,7 +34,7 @@ export const ShoppingCart = () => {
               {
                 discount > 0 ? (
 
-              <>
+                  <>
                     <Amount
                       label="Total"
                       amount={total}
@@ -53,14 +51,15 @@ export const ShoppingCart = () => {
                   </>
                 ) : (
                   <Amount
-              label="Total a pagar"
-              amount = {total}
-              />
+                    label="Total a pagar"
+                    amount={total}
+                  />
                 )
               }
 
             </dl>
             <CouponForm />
+            <SubmitOrderForm />
           </>
         )
           : (
