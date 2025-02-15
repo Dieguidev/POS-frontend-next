@@ -76,14 +76,15 @@ export const TransactionResponseSchema = z.object({
   id: z.number(),
   total: z.number(),
   transactionDate: z.string(),
-  discount: z.number(),
+  discount: z.number().nullable(),
   coupon: z.string().nullable(),
   contents: z.array(ContentsSchema)
 })
+export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
 
 
 export type Product = z.infer<typeof ProductSchema>;
 export type ShoppingCart = z.infer<typeof ShoppingCartSchema>;
 export type CartItem = z.infer<typeof ShoppingCartContentsSchema>;
 export type Coupon = z.infer<typeof CouponResponseSchema>;
-export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
+export type Transaction = z.infer<typeof TransactionResponseSchema>;
