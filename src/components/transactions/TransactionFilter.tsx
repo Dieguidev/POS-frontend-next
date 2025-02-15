@@ -7,6 +7,7 @@ import { useState } from "react"
 import Calendar from "react-calendar"
 import 'react-calendar/dist/Calendar.css'
 import { TransactionSummary } from "./TransactionSummary"
+import { formatCurrency } from "@/utils/formatCurrency"
 
 
 type ValuePiece = Date | null
@@ -24,6 +25,13 @@ export const TransactionFilter = () => {
     queryKey: ['sales', formattedDate],
     queryFn: () => getSalesByDate(formattedDate)
   })
+
+  const total = data?.reduce((total, transaction) => {
+    if (transaction.coupon) {
+      return total + transaction.total - (transaction.discount ?? 0)
+    }
+    return total + transaction.total
+  }, 0) ?? 0
 
 
   if (data) return (
@@ -43,6 +51,9 @@ export const TransactionFilter = () => {
               <TransactionSummary key={transaction.id} transaction={transaction} />
             )) : <p className="text-lg text-center">No hay ventas en esta fecha</p> : null
         }
+        <p className="my-5 text-lg font-bold text-right">Total del dia: {''}
+          <span className="font-normal">{formatCurrency(total)}</span>
+        </p>
       </div>
     </div>
   )

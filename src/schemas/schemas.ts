@@ -70,7 +70,7 @@ export const ContentsSchema = z.object({
   id: z.number(),
   quantity: z.number(),
   price: z.number(),
-  // product: ProductSchema
+  product: ProductSchema
 })
 export const TransactionResponseSchema = z.object({
   id: z.number(),
