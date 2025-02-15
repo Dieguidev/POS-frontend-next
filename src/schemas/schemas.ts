@@ -14,6 +14,7 @@ export const ProductSchema = z.object({
 export const ProdcutsResponseSchema = z.object({
   data: z.array(ProductSchema),
   total: z.number(),
+  totalPages: z.number(),
 })
 
 export const CategorySchema = z.object({

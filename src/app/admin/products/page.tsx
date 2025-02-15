@@ -1,5 +1,6 @@
 import { ProductsTable } from "@/components/products/ProductsTable";
 import { Heading } from "@/components/ui/Heading";
+import { Pagination } from "@/components/ui/Pagination";
 import { ProdcutsResponseSchema } from "@/schemas/schemas";
 import { isValidPage } from "@/utils/isValidPage";
 import { redirect } from "next/navigation";
@@ -13,7 +14,8 @@ async function getProducts(limit: number, page: number) {
 
   return {
     products: data.data,
-    total: data.total
+    total: data.total,
+    totalPages: data.totalPages
   }
 }
 
@@ -29,13 +31,19 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
   const productsPorPage = 10
   // const skip = (+page) * productsPorPage
 
-  const { products, total } = await getProducts(productsPorPage, +page)
+  const { products, total, totalPages } = await getProducts(productsPorPage, +page)
+  if (+page > totalPages) redirect('/admin/products?page=1')
   return (
     <>
       <Heading>Administrar productos</Heading>
 
       <ProductsTable
         products={products}
+      />
+
+      <Pagination
+        page={+page}
+        totalPages={totalPages}
       />
     </>
   );
