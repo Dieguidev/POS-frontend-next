@@ -1,5 +1,6 @@
 'use client'
 
+import { format } from "date-fns"
 import { useState } from "react"
 import Calendar from "react-calendar"
 import 'react-calendar/dist/Calendar.css'
@@ -11,7 +12,11 @@ export const TransactionFilter = () => {
 
   const [date, setDate] = useState<Value>(new Date())
 
-  console.log(date);
+  const formattedDate = date instanceof Date
+    ? format(date, 'yyyy-MM-dd')
+    : format(new Date(), 'yyyy-MM-dd')
+
+  console.log(formattedDate);
 
 
   return (
