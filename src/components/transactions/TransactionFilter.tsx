@@ -1,5 +1,7 @@
 'use client'
 
+import { getSalesByDate } from "@/api/api"
+import { useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
 import { useState } from "react"
 import Calendar from "react-calendar"
@@ -16,15 +18,18 @@ export const TransactionFilter = () => {
     ? format(date, 'yyyy-MM-dd')
     : format(new Date(), 'yyyy-MM-dd')
 
-  console.log(formattedDate);
+  const { data, isLoading } = useQuery({
+    queryKey: ['sales', formattedDate],
+    queryFn: () => getSalesByDate(formattedDate)
+  })
 
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
       <div>
         <Calendar
-        value={date}
-        onChange={setDate}
+          value={date}
+          onChange={setDate}
         />
       </div>
       <div>
