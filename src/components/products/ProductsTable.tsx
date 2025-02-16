@@ -2,6 +2,7 @@ import { Product } from "@/schemas/schemas"
 import { formatCurrency } from "@/utils/formatCurrency"
 import Image from "next/image"
 import Link from "next/link"
+import { DeleteProductForm } from "./DeleteProductForm"
 
 type ProductsTableProps = {
   products: Product[]
@@ -64,13 +65,7 @@ export const ProductsTable = ({ products }: ProductsTableProps) => {
                           href={`/admin/products/${product.id}/edit`}
                         >Editar <span className="sr-only">, {product.name}</span></Link>
 
-                        <form>
-                          <input
-                            type="submit"
-                            className="text-red-600 hover:text-red-800 cursor-pointer"
-                            value="Eliminar"
-                          />
-                        </form>
+                        <DeleteProductForm productId={product.id}/>
                       </div>
                     </td>
                   </tr>
