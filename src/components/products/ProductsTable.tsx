@@ -3,6 +3,7 @@ import { formatCurrency } from "@/utils/formatCurrency"
 import Image from "next/image"
 import Link from "next/link"
 import { DeleteProductForm } from "./DeleteProductForm"
+import { getImagePath } from "@/utils/getImagePath"
 
 type ProductsTableProps = {
   products: Product[]
@@ -42,7 +43,7 @@ export const ProductsTable = ({ products }: ProductsTableProps) => {
                   <tr key={product.id}>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       <Image
-                        src={`${process.env.API_URL}/img/${product.image}`}
+                        src={getImagePath(product.image)}
                         alt={`Imagen de producto ${product.name}`}
                         width={120}
                         height={120}
