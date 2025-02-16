@@ -3,6 +3,7 @@ import { Heading } from "@/components/ui/Heading";
 import { Pagination } from "@/components/ui/Pagination";
 import { ProdcutsResponseSchema } from "@/schemas/schemas";
 import { isValidPage } from "@/utils/isValidPage";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 
@@ -35,6 +36,14 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
   if (+page > totalPages) redirect('/admin/products?page=1')
   return (
     <>
+
+      <Link
+
+        href="/admin/products/new"
+        className="rounded bg-green-400 font-bold py-2 px-10"
+        >Nuevo producto
+      </Link>
+
       <Heading>Administrar productos</Heading>
 
       <ProductsTable
