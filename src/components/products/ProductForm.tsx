@@ -1,6 +1,7 @@
 import { CategoriesResponseSchema, Product } from "@/schemas/schemas"
+import { UploadProductImage } from "./UploadProductImage"
 
-async function getCategories(){
+async function getCategories() {
   const url = `${process.env.API_URL}/categories`
   const req = await fetch(url)
   const json = await req.json()
@@ -12,7 +13,7 @@ type ProductFormProps = {
   product?: Product
 }
 
-export const ProductForm = async ({product}: ProductFormProps) => {
+export const ProductForm = async ({ product }: ProductFormProps) => {
   const categories = await getCategories()
 
   return (
@@ -89,6 +90,8 @@ export const ProductForm = async ({product}: ProductFormProps) => {
 
         </select>
       </div>
+
+      <UploadProductImage />
 
     </>
   )
