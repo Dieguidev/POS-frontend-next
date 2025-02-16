@@ -11,12 +11,20 @@ export const ProductSchema = z.object({
   categoryId: z.number(),
 });
 
+export const ProdcutsResponseSchema = z.object({
+  data: z.array(ProductSchema),
+  total: z.number(),
+  totalPages: z.number(),
+})
+
 export const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
   // createdAt: z.string(),
   // updatedAt: z.string(),
 });
+
+export const CategoriesResponseSchema = z.array(CategorySchema);
 
 export const CategoryWithProductsResponseSchema = CategorySchema.extend({
   products: z.array(ProductSchema),
@@ -82,6 +90,15 @@ export const TransactionResponseSchema = z.object({
 })
 export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
 
+export const ProductFormSchema = z.object({
+  name: z.string()
+          .min(1, {message: 'El Nombre del Producto no puede ir vacio'}),
+  price: z.coerce.number({message: 'Precio no válido'})
+          .min(1, {message: 'El Precio debe ser mayor a 0'}),
+  inventory: z.coerce.number({message: 'Inventario no válido'})
+          .min(1, {message: 'El inventario debe ser mayor a 0'}),
+  categoryId: z.coerce.number({message: 'La Categoria no es válida'})
+})
 
 export type Product = z.infer<typeof ProductSchema>;
 export type ShoppingCart = z.infer<typeof ShoppingCartSchema>;
