@@ -1,13 +1,21 @@
 'use server';
 
-import { ErrorResponseSchema, ProductFormSchema, SuccessResponseSchema } from "@/schemas/schemas";
+import {
+  ErrorResponseSchema,
+  ProductFormSchema,
+  SuccessResponseSchema,
+} from '@/schemas/schemas';
+import { revalidatePath } from 'next/cache';
 
 type ActionStatetype = {
   errors: string[];
   success: string;
-}
+};
 
-export async function addProduct(prevState: ActionStatetype, formData: FormData) {
+export async function addProduct(
+  prevState: ActionStatetype,
+  formData: FormData
+) {
   const product = ProductFormSchema.safeParse({
     name: formData.get('name'),
     price: Number(formData.get('price')),
@@ -15,7 +23,7 @@ export async function addProduct(prevState: ActionStatetype, formData: FormData)
     inventory: Number(formData.get('inventory')),
     categoryId: Number(formData.get('categoryId')),
   });
-  if(!product.success) {
+  if (!product.success) {
     return {
       errors: product.error.issues.map((issue) => issue.message),
       success: '',
@@ -41,7 +49,7 @@ export async function addProduct(prevState: ActionStatetype, formData: FormData)
   }
 
   const success = SuccessResponseSchema.parse(json);
-
+  revalidatePath('/');
 
   return {
     errors: [],

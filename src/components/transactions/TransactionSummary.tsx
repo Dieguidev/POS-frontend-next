@@ -2,6 +2,7 @@ import { Transaction } from '@/schemas/schemas'
 import { formatCurrency } from '@/utils/formatCurrency'
 import Image from 'next/image'
 import React from 'react'
+import { getImagePath } from '../../utils/getImagePath';
 
 
 type TransactionSummaryProps = {
@@ -24,7 +25,8 @@ export const TransactionSummary = ({ transaction }: TransactionSummaryProps) => 
               <div className='flex items-center space-x-6 '>
                 <div className='relative w-32 h-32'>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}/img/${item.product.image}`}
+                    src={getImagePath(item.product.image)}
+
                     alt={`Imagen de Producto ${item.product.name}`}
                     className='object-contain'
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

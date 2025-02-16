@@ -5,6 +5,7 @@ import {
   Product,
   ProductFormSchema,
 } from '@/schemas/schemas';
+import { revalidatePath } from 'next/cache';
 
 type ActionStatetype = {
   errors: string[];
@@ -52,6 +53,9 @@ export async function updateProduct(
       success: '',
     };
   }
+
+  revalidatePath('/');
+
 
   return {
     errors: [],

@@ -3,6 +3,7 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import Image from 'next/image'
 import React from 'react'
 import { AddProductButton } from './AddProductButton'
+import { getImagePath } from '@/utils/getImagePath'
 
 type ProductCardProps = {
   product: Product
@@ -14,7 +15,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     >
       <div>
         <Image
-          src={`${process.env.API_URL}/img/${product.image}`}
+          src={getImagePath(product.image)}
           alt={`Imagen de Producto ${product.name}`}
           width={400}
           height={600}
