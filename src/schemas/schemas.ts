@@ -15,7 +15,7 @@ export const ProdcutsResponseSchema = z.object({
   data: z.array(ProductSchema),
   total: z.number(),
   totalPages: z.number(),
-})
+});
 
 export const CategorySchema = z.object({
   id: z.number(),
@@ -52,53 +52,58 @@ export const CouponResponseSchema = z.object({
   percentage: z.coerce.number().min(0).max(100).default(0),
 });
 
-
 const OrderContentSchema = z.object({
   productId: z.number(),
   quantity: z.number(),
-  price: z.number()
-})
+  price: z.number(),
+});
 export const OrderSchema = z.object({
   // total: z.number(),
   coupon: z.string(),
-  contents: z.array(OrderContentSchema).min(1, {message: 'El Carrito no puede ir vacio'})
-})
+  contents: z
+    .array(OrderContentSchema)
+    .min(1, { message: 'El Carrito no puede ir vacio' }),
+});
 
 /** Success / Error Response */
 export const SuccessResponseSchema = z.object({
-  message: z.string()
-})
+  message: z.string(),
+});
 export const ErrorResponseSchema = z.object({
   message: z.array(z.string()),
   error: z.string(),
-  statusCode: z.number()
-})
+  statusCode: z.number(),
+});
 
 export const ContentsSchema = z.object({
   id: z.number(),
   quantity: z.number(),
   price: z.number(),
-  product: ProductSchema
-})
+  product: ProductSchema,
+});
 export const TransactionResponseSchema = z.object({
   id: z.number(),
   total: z.number(),
   transactionDate: z.string(),
   discount: z.number().nullable(),
   coupon: z.string().nullable(),
-  contents: z.array(ContentsSchema)
-})
-export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
+  contents: z.array(ContentsSchema),
+});
+export const TransactionsResponseSchema = z.array(TransactionResponseSchema);
 
 export const ProductFormSchema = z.object({
-  name: z.string()
-          .min(1, {message: 'El Nombre del Producto no puede ir vacio'}),
-  price: z.coerce.number({message: 'Precio no válido'})
-          .min(1, {message: 'El Precio debe ser mayor a 0'}),
-  inventory: z.coerce.number({message: 'Inventario no válido'})
-          .min(1, {message: 'El inventario debe ser mayor a 0'}),
-  categoryId: z.coerce.number({message: 'La Categoria no es válida'})
-})
+  name: z
+    .string()
+    .min(1, { message: 'El Nombre del Producto no puede ir vacio' }),
+  price: z.coerce
+    .number({ message: 'Precio no válido' })
+    .min(1, { message: 'El Precio debe ser mayor a 0' }),
+  image: z.string({ message: 'La imagen es obligatoriaaaaa' }),
+  inventory: z.coerce
+    .number({ message: 'Inventario no válido' })
+    .min(1, { message: 'El inventario debe ser mayor a 0' }),
+  categoryId: z.coerce.number({ message: 'La Categoria no es válida' }),
+});
 
 export type Product = z.infer<typeof ProductSchema>;
 export type ShoppingCart = z.infer<typeof ShoppingCartSchema>;
