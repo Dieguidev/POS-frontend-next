@@ -1,5 +1,6 @@
 'use client'
 
+import { uploadImage } from "@/actions/upload-image-action"
 import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 
@@ -11,6 +12,10 @@ export const UploadProductImage = () => {
     acceptedFiles.forEach((file)=>{
       formData.append('file', file)
     })
+
+    const image = await uploadImage(formData)
+    console.log(image);
+
   }, [])
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, isDragAccept } = useDropzone({
