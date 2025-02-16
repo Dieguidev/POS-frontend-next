@@ -61,7 +61,7 @@ export const ProductsTable = ({ products }: ProductsTableProps) => {
                       <div className='flex gap-5 justify-end items-center'>
                         <Link
                           className="text-indigo-600 hover:text-indigo-800"
-                          href={`/admin/products/${product.id}`}
+                          href={`/admin/products/${product.id}/edit`}
                         >Editar <span className="sr-only">, {product.name}</span></Link>
 
                         <form>
