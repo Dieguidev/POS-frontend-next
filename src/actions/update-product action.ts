@@ -16,10 +16,16 @@ export async function updateProduct(
   prevState: ActionStatetype,
   formData: FormData
 ) {
+  const inventoryValue = formData.get('inventory');
+  const inventory = inventoryValue
+    ? parseInt(inventoryValue.toString(), 10)
+    : 0;
+
   const product = ProductFormSchema.safeParse({
     name: formData.get('name'),
+    image: formData.get('image'),
     price: Number(formData.get('price')),
-    inventory: Number(formData.get('inventory')),
+    inventory,
     categoryId: Number(formData.get('categoryId')),
   });
   if (!product.success) {
@@ -46,8 +52,6 @@ export async function updateProduct(
       success: '',
     };
   }
-
-
 
   return {
     errors: [],

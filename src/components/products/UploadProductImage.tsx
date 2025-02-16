@@ -4,15 +4,20 @@ import { uploadImage } from "@/actions/upload-image-action"
 import { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import Image from 'next/image';
+import { Product } from "@/schemas/schemas";
+import { getImagePath } from "@/utils/getImagePath";
 
+type UploadProductImageProps = {
+  currentImage?: Product['image']
+}
 
-export const UploadProductImage = () => {
+export const UploadProductImage = ({ currentImage }: UploadProductImageProps) => {
 
   const [image, setImage] = useState('')
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const formData = new FormData()
-    acceptedFiles.forEach((file)=>{
+    acceptedFiles.forEach((file) => {
       formData.append('file', file)
     })
 
@@ -63,10 +68,24 @@ export const UploadProductImage = () => {
         </div>
       )}
 
+      {currentImage && !image && (
+        <div className="py-5 space-y-3">
+          <p className="font-bold">Imagen Actual: </p>
+          <div className="w-[300px] h-[420px] relative">
+            <Image
+              src={getImagePath(currentImage)}
+              alt="Imagen publicada"
+              className="object-cover"
+              fill
+            />
+          </div>
+        </div>
+      )}
+
       <input
-      type="hidden"
-      name="image"
-      defaultValue={image}
+        type="hidden"
+        name="image"
+        defaultValue={image ? image : currentImage}
 
       />
     </>
